@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="80" fill="#3b82f6"/>
+  <g transform="translate(256,256)">
+    <!-- Briefcase body -->
+    <rect x="-140" y="-60" width="280" height="180" rx="20" fill="white" opacity="0.95"/>
+    <!-- Briefcase handle -->
+    <rect x="-60" y="-100" width="120" height="60" rx="15" fill="none" stroke="white" stroke-width="18" opacity="0.95"/>
+    <!-- Briefcase line -->
+    <line x1="-140" y1="0" x2="140" y2="0" stroke="#3b82f6" stroke-width="8"/>
+    <!-- Check mark -->
+    <polyline points="30,30 55,60 100,10" fill="none" stroke="#3b82f6" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>
