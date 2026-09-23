@@ -1,4 +1,5 @@
 import { Database } from "bun:sqlite";
+import { file as bunFile } from "bun";
 
 // Inisialisasi Database SQLite persisten
 const db = new Database("jobtrack.db", { create: true });
@@ -61,7 +62,7 @@ export async function seedDemoUserAndJobs() {
   if (jobsCount === 0) {
     const insertJob = db.prepare(`
       INSERT INTO jobs (id, user_id, company, position, status, work_type, location, salary_min, salary_max, applied_date, follow_up_date, job_url, notes, timeline)
-      VALUES ($id, $user_id, $company, $position, $status, $work_type, $location, $salary_min, $salary_max, $applied_date, $follow_up_date, $job_url, $notes, $timeline)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
     const sampleJobs = [
@@ -125,22 +126,22 @@ export async function seedDemoUserAndJobs() {
     ];
 
     for (const job of sampleJobs) {
-      insertJob.run({
-        $id: job.id,
-        $user_id: userId,
-        $company: job.company,
-        $position: job.position,
-        $status: job.status,
-        $work_type: job.work_type,
-        $location: job.location,
-        $salary_min: job.salary_min,
-        $salary_max: job.salary_max,
-        $applied_date: job.applied_date,
-        $follow_up_date: job.follow_up_date,
-        $job_url: job.job_url,
-        $notes: job.notes,
-        $timeline: job.timeline
-      });
+      insertJob.run(
+        job.id,
+        userId,
+        job.company,
+        job.position,
+        job.status,
+        job.work_type,
+        job.location,
+        job.salary_min,
+        job.salary_max,
+        job.applied_date,
+        job.follow_up_date,
+        job.job_url,
+        job.notes,
+        job.timeline
+      );
     }
   }
 }
@@ -435,13 +436,36 @@ export async function handleApiRequest(req) {
   return jsonResponse({ error: "Endpoint not found" }, 404);
 }
 
-// Start Bun HTTP Server (if executed directly)
+// Start Unified Production & API Server
 if (import.meta.main) {
-  const PORT = 3001;
+  const PORT = process.env.PORT || 3005;
   Bun.serve({
     port: PORT,
     hostname: "0.0.0.0",
-    fetch: handleApiRequest
+    async fetch(req) {
+      const url = new URL(req.url);
+
+      if (url.pathname.startsWith("/api/")) {
+        return handleApiRequest(req);
+      }
+
+      let filePath = `./dist${url.pathname}`;
+      if (url.pathname === "/") {
+        filePath = "./dist/index.html";
+      }
+
+      const staticFile = bunFile(filePath);
+      if (await staticFile.exists()) {
+        return new Response(staticFile);
+      }
+
+      const indexHtml = bunFile("./dist/index.html");
+      if (await indexHtml.exists()) {
+        return new Response(indexHtml);
+      }
+
+      return new Response("Not found", { status: 404 });
+    }
   });
-  console.log(`🚀 JobTrack REST API Server (Argon2id + SQLite) berjalan di http://127.0.0.1:${PORT}`);
+  console.log(`🚀 JobTrack Production Server (API + Frontend) berjalan di http://0.0.0.0:${PORT}`);
 }
