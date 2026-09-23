@@ -67,17 +67,24 @@ export function useJobTrack() {
       if (json.success && json.user) {
         setUser(json.user);
       } else {
-        // Fallback demo user if token is demo
-        setUser({ name: "Muh Nazih", email: "demo@jobtrack.io" });
+        // Invalid token
+        setAuthToken('');
+        setUser(null);
+        setJobs([]);
       }
     } catch (err) {
       console.error('Error checking auth session:', err);
+      setUser(null);
+      setJobs([]);
+    } finally {
+      setLoading(false);
     }
   }, []);
 
   // Fetch Jobs from API
   const fetchJobs = useCallback(async () => {
     if (!authToken) {
+      setJobs([]);
       setLoading(false);
       return;
     }
@@ -89,8 +96,10 @@ export function useJobTrack() {
       });
 
       if (res.status === 401) {
-        setIsAuthModalOpen(true);
+        setAuthToken('');
+        setUser(null);
         setJobs([]);
+        setIsAuthModalOpen(true);
         return;
       }
 
@@ -112,8 +121,9 @@ export function useJobTrack() {
       fetchJobs();
     } else {
       localStorage.removeItem(AUTH_TOKEN_KEY);
-      // Auto-login with demo user if token empty
-      login("demo@jobtrack.io", "password123");
+      setUser(null);
+      setJobs([]);
+      setLoading(false);
     }
   }, [authToken, checkSession, fetchJobs]);
 
@@ -167,7 +177,7 @@ export function useJobTrack() {
     }
   };
 
-  // Logout Handler
+  // Logout Handler (Cleanly clear auth state and token)
   const logout = async () => {
     if (authToken) {
       try {
@@ -179,6 +189,7 @@ export function useJobTrack() {
         console.error('Logout error:', e);
       }
     }
+    localStorage.removeItem(AUTH_TOKEN_KEY);
     setAuthToken('');
     setUser(null);
     setJobs([]);
@@ -187,6 +198,11 @@ export function useJobTrack() {
 
   // CRUD Operations
   const addJob = async (jobData) => {
+    if (!authToken) {
+      setIsAuthModalOpen(true);
+      return;
+    }
+
     const newJob = {
       ...jobData,
       id: `job-${Date.now()}`,
@@ -222,6 +238,8 @@ export function useJobTrack() {
   };
 
   const updateJob = async (updatedJob) => {
+    if (!authToken) return;
+
     const targetJob = jobs.find(j => j.id === updatedJob.id);
     const statusChanged = targetJob && targetJob.status !== updatedJob.status;
 
@@ -260,6 +278,7 @@ export function useJobTrack() {
   };
 
   const deleteJob = async (id) => {
+    if (!authToken) return;
     setJobs(prev => prev.filter(j => j.id !== id));
 
     try {
@@ -280,6 +299,7 @@ export function useJobTrack() {
   };
 
   const resetToSample = async () => {
+    if (!authToken) return;
     try {
       await fetch('/api/jobs/reset', {
         method: 'POST',
