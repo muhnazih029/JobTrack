@@ -1,0 +1,248 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root[data-theme="dark"] {
+  --bg-primary: #090e17;
+  --bg-secondary: #111827;
+  --bg-card: #111827;
+  --bg-card-hover: #1f2937;
+  --bg-input: #060911;
+  --border-color: #1f2937;
+  --border-color-strong: #374151;
+  --text-primary: #f9fafb;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
+  --accent-primary: #4f46e5;
+  --accent-hover: #4338ca;
+  --accent-light: rgba(79, 70, 229, 0.15);
+
+  --status-wishlist-bg: #1f2937;
+  --status-wishlist-text: #d1d5db;
+  --status-applied-bg: #1e3a8a;
+  --status-applied-text: #93c5fd;
+  --status-screening-bg: #78350f;
+  --status-screening-text: #fde68a;
+  --status-interview-bg: #581c87;
+  --status-interview-text: #e9d5ff;
+  --status-offer-bg: #064e3b;
+  --status-offer-text: #6ee7b7;
+  --status-rejected-bg: #881337;
+  --status-rejected-text: #fca5a5;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.7);
+}
+
+:root[data-theme="light"] {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f1f5f9;
+  --bg-input: #f1f5f9;
+  --border-color: #e2e8f0;
+  --border-color-strong: #cbd5e1;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --accent-primary: #4f46e5;
+  --accent-hover: #4338ca;
+  --accent-light: rgba(79, 70, 229, 0.1);
+
+  --status-wishlist-bg: #f1f5f9;
+  --status-wishlist-text: #475569;
+  --status-applied-bg: #eff6ff;
+  --status-applied-text: #1d4ed8;
+  --status-screening-bg: #fffbeb;
+  --status-screening-text: #b45309;
+  --status-interview-bg: #faf5ff;
+  --status-interview-text: #7e22ce;
+  --status-offer-bg: #ecfdf5;
+  --status-offer-text: #047857;
+  --status-rejected-bg: #fff1f2;
+  --status-rejected-text: #be123c;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.5;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  overflow-x: hidden;
+}
+
+code, pre, .font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Glass & Card Base */
+.glass-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.glass-panel:hover {
+  border-color: var(--border-color-strong);
+}
+
+/* Status Pill Badges */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 0.73rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.status-badge.wishlist { background: var(--status-wishlist-bg); color: var(--status-wishlist-text); }
+.status-badge.applied { background: var(--status-applied-bg); color: var(--status-applied-text); }
+.status-badge.screening { background: var(--status-screening-bg); color: var(--status-screening-text); }
+.status-badge.interview { background: var(--status-interview-bg); color: var(--status-interview-text); }
+.status-badge.offer { background: var(--status-offer-bg); color: var(--status-offer-text); }
+.status-badge.rejected { background: var(--status-rejected-bg); color: var(--status-rejected-text); }
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: currentColor;
+}
+
+/* Inputs & Forms */
+input, select, textarea {
+  font-family: inherit;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 9px 13px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px var(--accent-light);
+}
+
+/* Buttons (Solid Colors) */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-primary {
+  background-color: var(--accent-primary);
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-hover);
+}
+
+.btn-secondary {
+  background-color: var(--bg-card);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+  background-color: var(--bg-card-hover);
+  border-color: var(--border-color-strong);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+}
+
+.btn-ghost:hover {
+  color: var(--text-primary);
+  background: var(--bg-card-hover);
+}
+
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 8px;
+}
+
+/* Floating Action Button (+) */
+.fab-button {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: var(--accent-primary);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  border: none;
+  cursor: pointer;
+  z-index: 99;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.fab-button:hover {
+  transform: scale(1.08);
+  background-color: var(--accent-hover);
+}
+
+/* Company Initial Avatar Box */
+.company-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
