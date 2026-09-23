@@ -1,87 +1,100 @@
-# 💼 JobTrack — Professional Job Application Tracker & Analytics
+# 💼 JobTrack — Minimalist Job Application Tracker & Analytics
 
-**JobTrack** adalah aplikasi web fullstack modern dan minimalis untuk memantau, mengelola, dan menganalisis lamaran pekerjaan secara efektif. Dibangun dengan **React**, **Vite**, **Bun**, **SQLite**, dan standar keamanan autentikasi **Argon2id Memory Hashing**.
+<p align="center">
+  <strong>A high-performance fullstack job application tracker and analytics dashboard built with React 19, Bun, SQLite, and Argon2id Security.</strong>
+</p>
 
 ---
 
-## ✨ Fitur Utama
+## 🌟 Overview
 
-- 🔒 **Sistem Keamanan Standar Industri (Argon2id)**: Password di-hash menggunakan algoritma `Argon2id` (standar kriptografi tertinggi untuk otentikasi) dan sesi JWT/Bearer Token.
-- 🗄️ **SQLite Native Database (`bun:sqlite`)**: Penyimpanan data persisten lokal di `jobtrack.db` yang cepat, aman, dan terisolasi per akun user.
-- 📊 **Executive Analytics Dashboard**: Metrik real-time (*Total Applications, Active Pipeline, Offers, Win Rate %, Response Rate %*) serta *Funnel Progress Breakdown Bar*.
+**JobTrack** is an executive-grade, privacy-first web application designed to help software engineers, product managers, and professionals manage their job hunt pipeline effectively. 
+
+It provides real-time conversion metrics (*Total Applications, Active Pipeline, Offers Received, Win Rate %, Response Rate %*), dual view interfaces (Kanban Board & High-Density Data Table), an interactive Interview Prep & Checklist Master, and an industrial-grade security layer using **Argon2id Memory Hashing**.
+
+---
+
+## ✨ Key Features
+
+- 🛡️ **Industrial-Grade Security (Argon2id + JWT)**: Passwords are protected using `Bun.password.hash` with **Argon2id** (the gold standard in modern cryptography), paired with token-based session authorization and user data isolation.
+- 🗄️ **Native SQLite Persistence (`bun:sqlite`)**: High-performance local database engine storing user applications and timeline logs in `jobtrack.db`.
+- 📊 **Executive Analytics & Funnel Breakdown**: Interactive metric cards with live conversion rate calculations and visual status progress bars.
 - 🔀 **Dual View Interface**:
-  - **Kanban Board**: Kolom status (`Wishlist`, `Applied`, `Screening`, `Interview`, `Offer`, `Rejected`) dengan kartu interaktif dan pemindahan status cepat.
-  - **Data Table**: Tabel ringkas dengan search bar instan, filter lokasi/tipe kerja, dan pengurutan data.
-- 📋 **Interview Prep & Checklist Master**: Templat checklist persiapan HR & Technical Interview per perusahaan target.
-- 🎨 **Solid Color Minimalist UI**: Desain antarmuka bersih tanpa gradien, kontras tinggi, tema Light/Dark Mode toggle, dan Floating Action Button (`+`).
-- 🎉 **Selebrasi Confetti**: Efek selebrasi otomatis saat status lamaran mencapai **Offer**.
+  - **Kanban Board**: Drag-and-drop status columns (`Wishlist`, `Applied`, `Screening`, `Interview`, `Offer`, `Rejected`) with quick status changers and company avatar cards.
+  - **Data Table**: High-density table with instant search filter, work type filters, and salary sorting.
+- 📋 **Interview Prep & Checklist Master**: Full CRUD checklist tool for HR interviews, technical questions, and key questions to ask interviewers.
+- 🎨 **Solid Color Minimalist UI**: Clean, non-distracting design system with solid color tokens, dark/light mode toggle, and a responsive **Mobile Slide Drawer**.
+- ➕ **Floating Action Button (FAB)**: Quick add trigger floating button in the bottom right corner.
+- 🎉 **Confetti Celebration**: Automated celebration trigger when an application status reaches **Offer**.
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Runtime & Package Manager**: [Bun](https://bun.sh/)
-- **Frontend**: React 19, Lucide Icons, Canvas Confetti
-- **Backend API**: Bun HTTP Server (`server.js`)
-- **Database Engine**: `bun:sqlite` (SQLite 3)
-- **Security & Cryptography**: `Bun.password` (Argon2id)
-- **Testing**: `bun test`
+| Layer | Technology | Description |
+| :--- | :--- | :--- |
+| **Runtime Engine** | [Bun](https://bun.sh/) | Fast JavaScript all-in-one toolkit & package manager |
+| **Frontend Framework** | React 19 + Vite 6 | High-speed component UI bundler |
+| **Database** | `bun:sqlite` (SQLite 3) | Native zero-dependency persistent file database |
+| **Security & Auth** | Argon2id (`Bun.password`) | Cryptographic password hashing and session tokens |
+| **UI Components** | Lucide React + Canvas Confetti | Minimalist icons & particle celebration effects |
+| **Testing** | `bun test` | Built-in high speed unit test runner |
 
 ---
 
-## 🚀 Panduan Memulai (Quick Start)
+## 🚀 Quick Start
 
-### 1. Prasyarat
-Pastikan [Bun](https://bun.sh/) sudah terinstal di peranti Anda.
+### Prerequisite
+Ensure [Bun](https://bun.sh/) (v1.0+) is installed on your machine.
 
-### 2. Install Dependensi
+### 1. Installation
+Clone the repository and install dependencies:
 ```bash
+git clone https://github.com/muhnazih029/JobTrack.git
+cd JobTrack
 bun install
 ```
 
-### 3. Menjalankan Backend API & Dev Server
+### 2. Start Backend API Server
+Start the Bun REST API server listening on `http://127.0.0.1:3001`:
 ```bash
-# Jalankan API Server SQLite Backend (Port 3001)
 bun server.js
+```
 
-# Menjalankan Dev Server Frontend (Port 3000)
+### 3. Start Frontend Dev Server
+In a separate terminal, launch the Vite dev server:
+```bash
 bun dev
 ```
 
-Akses aplikasi di browser pada **http://localhost:3000/**.
+Open your browser at **`http://localhost:3000/`**.
 
 ---
 
-## 🧪 Menjalankan Automated Unit Tests
+## 🧪 Automated Unit Testing
 
-Aplikasi dilengkapi dengan pengujian unit otomatis untuk REST API dan Autentikasi Argon2id:
+JobTrack includes an automated unit test suite covering authentication, Argon2id hashing, authorization headers, and REST API endpoints:
 
 ```bash
 bun test
 ```
 
-### Output Pengujian:
+### Example Test Suite Output:
 ```text
 server.test.js:
-✓ GET /api/health - status OK & info SQLite database
-✓ POST /api/auth/register - registrasi user dengan Argon2id
-✓ POST /api/auth/login - verifikasi password Argon2id
-✓ POST /api/auth/login - menolak password salah
-✓ GET /api/auth/me - check user session
-✓ GET /api/jobs - fetch data lamaran user
-✓ POST /api/jobs - tambah lamaran baru
+✓ GET /api/health - status OK, SQLite & Argon2id info
+✓ POST /api/auth/register - user registration with Argon2id hashing
+✓ POST /api/auth/login - password verification & token issuance
+✓ POST /api/auth/login - rejects invalid credentials
+✓ GET /api/auth/me - verifies authenticated session
+✓ GET /api/jobs - fetches user-isolated applications
+✓ POST /api/jobs - creates new job application
 
  7 pass, 0 fail (393ms)
 ```
 
 ---
 
-## 📚 Dokumentasi API
+## 📄 License
 
-Lihat rincian spesifikasi REST API pada file [API_DOCUMENTATION.md](./API_DOCUMENTATION.md).
-
----
-
-## 📝 Lisensi
-
-Licensed under the [MIT License](./LICENSE).
+Distributed under the MIT License. See `LICENSE` for more information.
